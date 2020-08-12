@@ -64,6 +64,7 @@ class Graph:
                     s.push(next_vertex)
 
     def dft_recursive(self, starting_vertex, visited=None):
+        # need to add == None so it doesnt add extra child processes when it's called
         if visited is None:
             visited = set()
         visited.add(starting_vertex)
@@ -125,7 +126,7 @@ class Graph:
                 for next_v in self.get_neighbors(v):
                     # make a copy of the path
                     path_copy = list(path)
-                    # append the neighbor to the back of the path
+                    # append the neighbor to the end of the path
                     path_copy.append(next_v)
                     # push out new path
                     s.push(path_copy)

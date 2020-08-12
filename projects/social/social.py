@@ -1,6 +1,43 @@
+import random
+
+# class Stack():
+#     def __init__(self):
+#         self.stack = []
+
+#     def push(self, value):
+#         self.stack.append(value)
+
+#     def pop(self):
+#         if self.size() > 0:
+#             return self.stack.pop()
+#         else:
+#             return None
+
+#     def size(self):
+#         return len(self.stack)
+
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class User:
     def __init__(self, name):
         self.name = name
+
 
 class SocialGraph:
     def __init__(self):
@@ -45,10 +82,29 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for i in range(0, num_users):
+            self.add_user(f"User{i + 1}")
 
-        # Create friendships
+        # Create friendships and generate all possible friendship combos
+        possible_friendships = []
 
-    def get_all_social_paths(self, user_id):
+        # avoid dups by ensuring first num < second num
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        # shuffle friendships
+        random.shuffle(possible_friendships)
+
+        # create friendships from the first n pairs of the list
+        # N -> num_users * avg_friendships // 2
+        N = num_users * avg_friendships // 2
+        for i in range(N):
+            friendship = possible_friendships[i]
+            user_id, friend_id = friendship
+            self.add_friendship(user_id, friend_id)
+
+    def get_all_social_paths(self, user_id, visited=None):
         """
         Takes a user's user_id as an argument
 
@@ -57,9 +113,30 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        # what kind of search would guarantee the shortest path?
+        # i'll be choosing BFS with a queue over a stack
+        # it's very similar to earliest_ancestor
+        # the return is going to be connected friends shuffled each time
+        q = Queue()
         visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
-        return visited
+        q.enqueue([user_id])  # start the path
+
+        # dequeue the first path
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+
+            if v not in visited:
+                # add to visited
+                friends = self.friendships[v]
+                visited[v] = path
+
+                for neighbor in friends:
+                    # copy path and enqueue
+                    new_path = path.copy()
+                    new_path.append(neighbor)
+                    q.enqueue(new_path)
+        return visited  # should return shuffled connected friendships in social paths
 
 
 if __name__ == '__main__':

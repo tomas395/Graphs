@@ -17,6 +17,23 @@ class Graph:
         return self.vertices[vertex_id]
 
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, value):
+        self.queue.append(value)
+
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+
+    def size(self):
+        return len(self.queue)
+
+
 class Stack():
     def __init__(self):
         self.stack = []
@@ -63,18 +80,52 @@ def earliest_ancestor(ancestors, starting_node):
     # start the DFS
     while s.size() > 0:
         path = s.pop()
-        current_node = path[-1]
+        vertex = path[-1]
     # keep track of the longest length to find our earliest ancestor/eldest
     # if the path is longer or is == but the value is smaller
-        if len(path) > longest_path or (len(path) == longest_path and current_node < elder):
+        if len(path) > longest_path or (len(path) == longest_path and vertex < elder):
             longest_path = len(path)
-            elder = current_node
+            elder = vertex
 
-        if current_node not in visited:
-            visited.add(current_node)
-            parents = graph.get_neighbors(current_node)
+        if vertex not in visited:
+            visited.add(vertex)
+            parents = graph.get_neighbors(vertex)
 
             for parent in parents:
                 new_path = path + [parent]
                 s.push(new_path)
     return elder
+
+
+
+
+
+
+
+
+# BFS Version
+# def earliest_ancestor(ancestors, starting_node):
+#     graph = Graph()
+#     for pair in ancestors:
+#         graph.add_vertex(pair[0])
+#         graph.add_vertex(pair[1])
+#         graph.add_edge(pair[0], pair[1])
+
+#     # Do a BFS Storing the path
+
+#     q = Queue()
+#     q.enqueue([starting_node])
+#     max_path_length = 1
+#     earliest_anc = -1
+
+#     while q.size() > 0:
+#         path = q.dequeue()
+#         v = path[-1]
+#         if (len(path) >= max_path_length and v < earliest_anc) or (len(path) > max_path_length):
+#             earliest_anc = v
+#             max_path_length = len(path)
+#             for neighbor in graph.vertices[v]:
+#                 path_copy = list(path)
+#                 path_copy.append(neighbor)
+#                 q.enqueue(path_copy)
+#     return earliest_anc
