@@ -57,6 +57,7 @@ class Stack():
 # The longest path will be our earliest ancestor/eldest
 # Build a path like we did earlier in search
 # But we dont know when to stop until we've seen everyone
+# I should have gone BFS in hindsight.
 
 
 def build_graph(ancestors):

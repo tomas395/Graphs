@@ -1,7 +1,6 @@
 from room import Room
 from player import Player
 from world import World
-
 import random
 from ast import literal_eval
 
@@ -10,11 +9,11 @@ world = World()
 
 
 # You may uncomment the smaller graphs for development and testing purposes.
-# map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
-# map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
-map_file = "maps/main_maze.txt"
+# map_file = "C:/Users/TOrtiz/Documents/git/Graphs/projects/adventure/maps/test_line.txt"
+# map_file = "C:/Users/TOrtiz/Documents/git/Graphs/projects/adventure/maps/test_cross.txt"
+# map_file = "C:/Users/TOrtiz/Documents/git/Graphs/projects/adventure/maps/test_loop.txt"
+# map_file = "C:/Users/TOrtiz/Documents/git/Graphs/projects/adventure/maps/test_loop_fork.txt"
+map_file = "C:/Users/TOrtiz/Documents/git/Graphs/projects/adventure/maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph = literal_eval(open(map_file, "r").read())
@@ -30,8 +29,7 @@ player = Player(world.starting_room)
 traversal_path = []
 
 
-
-# TRAVERSAL TEST
+#  TRAVERSAL TEST
 visited_rooms = set()
 player.current_room = world.starting_room
 visited_rooms.add(player.current_room)
@@ -45,7 +43,6 @@ if len(visited_rooms) == len(room_graph):
 else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
-
 
 
 #######

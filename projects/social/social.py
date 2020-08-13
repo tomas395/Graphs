@@ -114,7 +114,7 @@ class SocialGraph:
         The key is the friend's ID and the value is the path.
         """
         # what kind of search would guarantee the shortest path?
-        # i'll be choosing BFS with a queue over a stack
+        # i'll be choosing BFS with a queue over a stack. BFS usually is the keyword for shortest.
         # it's very similar to earliest_ancestor
         # the return is going to be connected friends shuffled each time
         q = Queue()
